@@ -68,6 +68,43 @@ impl Renderer {
         })
     }
 
+    /// Create a renderer with custom font bytes pre-registered.
+    ///
+    /// Each entry is `(font_bytes,)` loaded from a user-picked font file.
+    /// Bytes are registered into the backend's text stack so the picked
+    /// family resolves during shaping AND compositing:
+    /// - shaping pipeline: via [`fontdb::Database::load_font_data`]
+    /// - Repose backend: via `repose_text::register_font_data` (parley
+    ///   fontique collection backing the GPU text pass)
+    /// An empty slice keeps previous behaviour (system fonts only).
+    /// Requires the `shaping` feature (for [`crate::pipeline::SoftwarePipeline`]).
+    #[cfg(feature = "shaping")]
+    pub fn with_custom_fonts(
+        backend_type: crate::backends::BackendType,
+        context: RenderContext,
+        custom_fonts: &[Vec<u8>],
+    ) -> Result<Self, RenderError> {
+        let backend = crate::backends::create_backend(backend_type, context.width(), context.height())?;
+        let mut font_database = fontdb::Database::new();
+        for bytes in custom_fonts {
+            if bytes.is_empty() {
+                continue;
+            }
+            font_database.load_font_data(bytes.clone());
+            #[cfg(feature = "repose-backend")]
+            repose_text::register_font_data(bytes);
+        }
+        let pipeline: Box<dyn Pipeline> =
+            Box::new(crate::pipeline::SoftwarePipeline::with_font_database(font_database));
+        Ok(Self {
+            context,
+            backend,
+            pipeline,
+            event_selector: event_selector::EventSelector::new(),
+            frame_cache: None,
+        })
+    }
+
     /// Create a renderer whose shaping pipeline uses the caller's font database.
     ///
     /// Pre-register custom fonts (e.g. a user-picked subtitle font) via
@@ -75,6 +112,8 @@ impl Renderer {
     /// is shared by the shaping pipeline so those faces resolve by family
     /// name. Falls back to system fonts when the database is empty.
     /// Requires the `shaping` feature (for [`crate::pipeline::SoftwarePipeline`]).
+    /// NOTE: only the shaping side is covered — the Repose backend resolves
+    /// families through its own text stack, so prefer [`Self::with_custom_fonts`].
     #[cfg(feature = "shaping")]
     pub fn with_font_database(
         backend_type: crate::backends::BackendType,

@@ -2383,6 +2383,7 @@ dependencies = [
  "reassarus-core",
  "repose-core",
  "repose-render-wgpu",
+ "repose-text",
  "rustybuzz",
  "serde",
  "serde_json",
