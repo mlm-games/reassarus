@@ -143,7 +143,7 @@ impl StreamingParser {
 
     #[cfg(feature = "benches")]
     /// Calculate current memory usage for benchmarking
-    fn calculate_memory_usage(&self) -> usize {
+    const fn calculate_memory_usage(&self) -> usize {
         core::mem::size_of::<Self>()
             + self.buffer.capacity()
             + self.sections.capacity() * core::mem::size_of::<String>()

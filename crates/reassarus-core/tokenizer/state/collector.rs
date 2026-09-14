@@ -51,7 +51,7 @@ impl<'a> IssueCollector<'a> {
 
     /// Check if any issues were collected
     #[must_use]
-    pub fn has_issues(&self) -> bool {
+    pub const fn has_issues(&self) -> bool {
         !self.issues.is_empty()
     }
 
@@ -62,7 +62,7 @@ impl<'a> IssueCollector<'a> {
 
     /// Get count of issues
     #[must_use]
-    pub fn issue_count(&self) -> usize {
+    pub const fn issue_count(&self) -> usize {
         self.issues.len()
     }
 

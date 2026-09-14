@@ -114,7 +114,7 @@ pub struct ScriptDeltaOwned {
 impl ScriptDelta<'_> {
     /// Check if the delta contains no changes
     #[must_use]
-    pub fn is_empty(&self) -> bool {
+    pub const fn is_empty(&self) -> bool {
         self.added.is_empty()
             && self.modified.is_empty()
             && self.removed.is_empty()

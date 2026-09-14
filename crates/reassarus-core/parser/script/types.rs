@@ -112,12 +112,12 @@ pub struct ChangeTracker<'a> {
 
 impl<'a> ChangeTracker<'a> {
     /// Enable change tracking
-    pub fn enable(&mut self) {
+    pub const fn enable(&mut self) {
         self.enabled = true;
     }
 
     /// Disable change tracking
-    pub fn disable(&mut self) {
+    pub const fn disable(&mut self) {
         self.enabled = false;
     }
 
@@ -147,13 +147,13 @@ impl<'a> ChangeTracker<'a> {
 
     /// Get the number of recorded changes
     #[must_use]
-    pub fn len(&self) -> usize {
+    pub const fn len(&self) -> usize {
         self.changes.len()
     }
 
     /// Check if there are no recorded changes
     #[must_use]
-    pub fn is_empty(&self) -> bool {
+    pub const fn is_empty(&self) -> bool {
         self.changes.is_empty()
     }
 }

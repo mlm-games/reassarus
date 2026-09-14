@@ -14,14 +14,14 @@ impl<'a> Script<'a> {
     ///
     /// When enabled, all modifications to the script will be recorded
     /// in the change tracker for later analysis.
-    pub fn enable_change_tracking(&mut self) {
+    pub const fn enable_change_tracking(&mut self) {
         self.change_tracker.enable();
     }
 
     /// Disable change tracking
     ///
     /// When disabled, modifications will not be recorded.
-    pub fn disable_change_tracking(&mut self) {
+    pub const fn disable_change_tracking(&mut self) {
         self.change_tracker.disable();
     }
 
@@ -49,7 +49,7 @@ impl<'a> Script<'a> {
 
     /// Get the number of recorded changes
     #[must_use]
-    pub fn change_count(&self) -> usize {
+    pub const fn change_count(&self) -> usize {
         self.change_tracker.len()
     }
 

@@ -47,7 +47,7 @@ impl RegressionAnalysis {
     }
 
     /// Check if analysis found any failures
-    pub fn has_failures(&self) -> bool {
+    pub const fn has_failures(&self) -> bool {
         !self.regressions.is_empty() || !self.target_violations.is_empty()
     }
 

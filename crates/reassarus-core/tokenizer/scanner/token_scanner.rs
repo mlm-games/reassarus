@@ -27,7 +27,7 @@ impl<'a> TokenScanner<'a> {
     }
 
     /// Get current navigator state (mutable)
-    pub fn navigator_mut(&mut self) -> &mut CharNavigator<'a> {
+    pub const fn navigator_mut(&mut self) -> &mut CharNavigator<'a> {
         &mut self.navigator
     }
 

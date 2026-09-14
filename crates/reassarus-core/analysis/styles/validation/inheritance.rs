@@ -56,19 +56,19 @@ impl<'a> StyleInheritance<'a> {
 
     /// Check if style has inheritance relationships
     #[must_use]
-    pub fn has_inheritance(&self) -> bool {
+    pub const fn has_inheritance(&self) -> bool {
         !self.parents.is_empty() || !self.children.is_empty()
     }
 
     /// Check if style is root (no parents)
     #[must_use]
-    pub fn is_root(&self) -> bool {
+    pub const fn is_root(&self) -> bool {
         self.parents.is_empty()
     }
 
     /// Check if style is leaf (no children)
     #[must_use]
-    pub fn is_leaf(&self) -> bool {
+    pub const fn is_leaf(&self) -> bool {
         self.children.is_empty()
     }
 }

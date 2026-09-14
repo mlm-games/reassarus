@@ -36,17 +36,17 @@ impl StreamingContext {
     }
 
     /// Advance to next line
-    pub fn next_line(&mut self) {
+    pub const fn next_line(&mut self) {
         self.line_number += 1;
     }
 
     /// Enter new section
-    pub fn enter_section(&mut self, kind: SectionKind) {
+    pub const fn enter_section(&mut self, kind: SectionKind) {
         self.current_section = Some(kind);
     }
 
     /// Exit current section
-    pub fn exit_section(&mut self) {
+    pub const fn exit_section(&mut self) {
         self.current_section = None;
     }
 

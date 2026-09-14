@@ -42,12 +42,12 @@ impl ParserState {
     }
 
     /// Transition to new section
-    pub fn enter_section(&mut self, kind: SectionKind) {
+    pub const fn enter_section(&mut self, kind: SectionKind) {
         *self = Self::InSection(kind);
     }
 
     /// Begin event parsing within section
-    pub fn enter_event(&mut self, section: SectionKind) {
+    pub const fn enter_event(&mut self, section: SectionKind) {
         *self = Self::InEvent {
             section,
             fields_seen: 0,
@@ -55,7 +55,7 @@ impl ParserState {
     }
 
     /// Exit current section
-    pub fn exit_section(&mut self) {
+    pub const fn exit_section(&mut self) {
         *self = Self::ExpectingSection;
     }
 }

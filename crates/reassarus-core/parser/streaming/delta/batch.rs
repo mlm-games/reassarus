@@ -54,13 +54,13 @@ impl<'a> DeltaBatch<'a> {
 
     /// Check if batch is empty
     #[must_use]
-    pub fn is_empty(&self) -> bool {
+    pub const fn is_empty(&self) -> bool {
         self.deltas.is_empty()
     }
 
     /// Get number of deltas in batch
     #[must_use]
-    pub fn len(&self) -> usize {
+    pub const fn len(&self) -> usize {
         self.deltas.len()
     }
 

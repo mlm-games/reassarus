@@ -18,7 +18,7 @@ impl ResolvedStyle<'_> {
     /// * `scale_y` - Vertical scaling factor (`PlayResY` / `LayoutResY`)
     pub fn apply_resolution_scaling(&mut self, scale_x: f32, scale_y: f32) {
         // Scale font size (use average of X/Y scaling to maintain aspect ratio)
-        let avg_scale = (scale_x + scale_y) / 2.0;
+        let avg_scale = f32::midpoint(scale_x, scale_y);
         self.font_size *= avg_scale;
 
         // Scale spacing (horizontal)

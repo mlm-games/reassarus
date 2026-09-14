@@ -72,7 +72,7 @@ pub fn validate_ass_text_content(text: &str) -> Result<(), CoreError> {
 ///
 /// Determines whether a character is acceptable in ASS subtitle content
 /// based on ASS specification guidelines.
-pub(super) fn is_valid_ass_char(ch: char) -> bool {
+pub(super) const fn is_valid_ass_char(ch: char) -> bool {
     match ch {
         // Allow printable ASCII
         c if c.is_ascii_graphic() => true,

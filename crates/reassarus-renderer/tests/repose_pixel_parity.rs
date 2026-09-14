@@ -42,7 +42,7 @@ fn render(backend: BackendType, dialogue: &str) -> Option<Vec<u8>> {
 /// (covered pixels, ink mass, centre x, centre y) of a premultiplied RGBA frame.
 fn stats(rgba: &[u8]) -> (u64, u64, f64, f64) {
     let (mut n, mut mass, mut sx, mut sy) = (0u64, 0u64, 0u64, 0u64);
-    for (i, px) in rgba.chunks_exact(4).enumerate() {
+    for (i, px) in rgba.as_chunks::<4>().0.iter().enumerate() {
         if px[3] > 8 {
             n += 1;
             mass += u64::from(px[3]);

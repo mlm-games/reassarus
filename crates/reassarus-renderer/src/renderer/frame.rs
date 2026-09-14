@@ -145,7 +145,7 @@ impl Frame {
         match self.format {
             PixelFormat::Rgba8 => self,
             PixelFormat::Bgra8 => {
-                for chunk in Arc::make_mut(&mut self.buffer).chunks_exact_mut(4) {
+                for chunk in Arc::make_mut(&mut self.buffer).as_chunks_mut::<4>().0 {
                     chunk.swap(0, 2);
                 }
                 self.format = PixelFormat::Rgba8;
@@ -153,7 +153,7 @@ impl Frame {
             }
             PixelFormat::Rgb8 => {
                 let mut rgba = Vec::with_capacity((self.width * self.height * 4) as usize);
-                for chunk in self.buffer.chunks_exact(3) {
+                for chunk in self.buffer.as_chunks::<3>().0 {
                     rgba.extend_from_slice(&[chunk[0], chunk[1], chunk[2], 255]);
                 }
                 self.buffer = Arc::new(rgba);
@@ -167,7 +167,7 @@ impl Frame {
     pub fn is_empty(&self) -> bool {
         match self.format {
             PixelFormat::Rgba8 | PixelFormat::Bgra8 => {
-                self.buffer.chunks_exact(4).all(|pixel| pixel[3] == 0)
+                self.buffer.as_chunks::<4>().0.iter().all(|pixel| pixel[3] == 0)
             }
             PixelFormat::Rgb8 => false,
         }
