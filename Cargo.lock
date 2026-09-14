@@ -2327,7 +2327,7 @@ dependencies = [
 
 [[package]]
 name = "reassarus-core"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "ahash",
  "bitflags 2.13.2",
@@ -2343,7 +2343,7 @@ dependencies = [
 
 [[package]]
 name = "reassarus-editor"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "bumpalo",
  "criterion",
@@ -2366,7 +2366,7 @@ dependencies = [
 
 [[package]]
 name = "reassarus-renderer"
-version = "0.1.4"
+version = "0.1.5"
 dependencies = [
  "ahash",
  "bumpalo",
