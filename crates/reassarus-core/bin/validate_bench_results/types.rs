@@ -100,7 +100,7 @@ impl ValidationResults {
     }
 
     /// Check if all validations passed
-    pub fn is_success(&self) -> bool {
+    pub const fn is_success(&self) -> bool {
         self.failed.is_empty()
     }
 }
