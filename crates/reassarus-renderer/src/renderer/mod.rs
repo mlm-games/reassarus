@@ -68,6 +68,31 @@ impl Renderer {
         })
     }
 
+    /// Create a renderer whose shaping pipeline uses the caller's font database.
+    ///
+    /// Pre-register custom fonts (e.g. a user-picked subtitle font) via
+    /// [`fontdb::Database::load_font_data`] before calling this; the database
+    /// is shared by the shaping pipeline so those faces resolve by family
+    /// name. Falls back to system fonts when the database is empty.
+    /// Requires the `shaping` feature (for [`crate::pipeline::SoftwarePipeline`]).
+    #[cfg(feature = "shaping")]
+    pub fn with_font_database(
+        backend_type: crate::backends::BackendType,
+        context: RenderContext,
+        font_database: fontdb::Database,
+    ) -> Result<Self, RenderError> {
+        let backend = crate::backends::create_backend(backend_type, context.width(), context.height())?;
+        let pipeline: Box<dyn Pipeline> =
+            Box::new(crate::pipeline::SoftwarePipeline::with_font_database(font_database));
+        Ok(Self {
+            context,
+            backend,
+            pipeline,
+            event_selector: event_selector::EventSelector::new(),
+            frame_cache: None,
+        })
+    }
+
     /// Create renderer with automatic backend detection
     #[cfg(feature = "backend-probing")]
     pub fn with_auto_backend(context: RenderContext) -> Result<Self, RenderError> {

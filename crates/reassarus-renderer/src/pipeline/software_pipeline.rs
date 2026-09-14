@@ -130,8 +130,18 @@ impl Default for SoftwarePipeline {
 impl SoftwarePipeline {
     /// Create a new fixed software pipeline
     pub fn new() -> Self {
-        let mut font_database = FontDatabase::new();
-        font_database.load_system_fonts();
+        Self::with_font_database(FontDatabase::new())
+    }
+
+    /// Create a pipeline sharing the caller's font database.
+    ///
+    /// The caller owns pre-registration of custom fonts (e.g. user-picked
+    /// subtitle fonts loaded via [`FontDatabase::load_font_data`]); system
+    /// fonts are loaded here when the database is empty.
+    pub fn with_font_database(mut font_database: FontDatabase) -> Self {
+        if font_database.faces().count() == 0 {
+            font_database.load_system_fonts();
+        }
 
         Self {
             font_database,
@@ -308,23 +318,11 @@ impl SoftwarePipeline {
 
     /// Create with specific dimensions
     pub fn with_dimensions(width: f32, height: f32) -> Self {
-        let mut font_database = FontDatabase::new();
-        font_database.load_system_fonts();
-
-        Self {
-            font_database,
-            glyph_renderer: GlyphRenderer::new(),
-            collision_resolver: crate::collision::CollisionResolver::new(width, height),
-            cache: crate::cache::RenderCache::with_limits(5000, 2000),
-            styles_map: AHashMap::new(),
-            default_style: None,
-            play_res_x: width,  // Use provided dimensions as default
-            play_res_y: height, // Use provided dimensions as default
-            layout_res_x: None,
-            layout_res_y: None,
-            scaled_border_and_shadow: true, // Default to true per ASS spec
-            dpi_scale: 0.9,                 // Adjusted for better libass compatibility (was 0.75)
-        }
+        let mut pipeline = Self::with_font_database(FontDatabase::new());
+        pipeline.collision_resolver = crate::collision::CollisionResolver::new(width, height);
+        pipeline.play_res_x = width; // Use provided dimensions as default
+        pipeline.play_res_y = height; // Use provided dimensions as default
+        pipeline
     }
 
     /// Set DPI scale factor (default is 0.9 for libass compatibility)
