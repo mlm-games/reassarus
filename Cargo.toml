@@ -47,7 +47,12 @@ fontdb = "0.24"
 ttf-parser = "0.25"
 rayon = "1"
 repose-core = "0.30"
-repose-render-wgpu = { version = "0.30", default-features = false }
+# default-features off (see below) but the wasm Send/Sync shim back on:
+# without `fragile-send-sync-non-atomic-wasm`, single-threaded wasm32 makes
+# wgpu handles !Send+!Sync and `ReposeBackend: Send+Sync` fails (E0277).
+repose-render-wgpu = { version = "0.30", default-features = false, features = [
+    "fragile-send-sync-non-atomic-wasm",
+] }
 lyon_path = "1.0"
 lyon_tessellation = "1.0"
 smallvec = "1"
