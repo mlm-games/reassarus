@@ -499,9 +499,9 @@ fn libass_rotation_rows(
     fax: f32,
     fay: f32,
     fscx: f32,
-    px: f32,
-    py: f32,
+    pivot: (f32, f32),
 ) -> ([f32; 3], [f32; 3], [f32; 3]) {
+    let (px, py) = pivot;
     let (frx, fry, frz) = (
         frx_deg * PI / 180.0,
         fry_deg * PI / 180.0,
@@ -705,7 +705,7 @@ fn emit_text(out: &mut BuiltScene, layers_ctx: &mut LayerCtx, data: &TextData) {
         let fscx = scale.map_or(100.0, |(x, _)| x * 100.0);
         let (px, py) = origin.unwrap_or((rect.x + rect.w * 0.5, rect.y + rect.h * 0.5));
         let (rx, ry, rp) =
-            libass_rotation_rows(x_deg, y_deg, z_deg, fax, fay, fscx / 100.0, px, py);
+            libass_rotation_rows(x_deg, y_deg, z_deg, fax, fay, fscx / 100.0, (px, py));
         Some(Transform::from_projective_rows(rx, ry, rp))
     } else if has_transform {
         let (sx, sy) = scale.unwrap_or((1.0, 1.0));

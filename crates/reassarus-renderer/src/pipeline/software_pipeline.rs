@@ -1554,7 +1554,7 @@ impl SoftwarePipeline {
                 // does not, i.e. primary opacity ≤ 1/255 culls the whole event.
                 // The pen still advances above; only the layer is dropped.
                 if layer.color[3] > 1 {
-                    all_layers.push(IntermediateLayer::Text(layer));
+                    all_layers.push(IntermediateLayer::Text(Box::new(layer)));
                 }
             }
 

@@ -31,9 +31,17 @@ fn render_at(time_cs: u32, dialogue_text: &str) -> (usize, usize, Vec<u8>) {
     )
 }
 
+/// Iterate RGBA pixels of frame data.
+///
+/// `as_chunks` (per clippy's `chunks_exact_to_as_chunks`) instead of
+/// `chunks_exact(4)`: frame buffers are always a multiple of 4 bytes.
+fn pixels(data: &[u8]) -> impl Iterator<Item = &[u8; 4]> {
+    data.as_chunks::<4>().0.iter()
+}
+
 /// Count opaque (alpha >= 128) pixels satisfying `pred(r, g, b)`.
 fn count_opaque<P: Fn(u8, u8, u8) -> bool>(data: &[u8], pred: P) -> u64 {
-    data.chunks_exact(4)
+    pixels(data)
         .filter(|px| px[3] >= 128 && pred(px[0], px[1], px[2]))
         .count() as u64
 }
@@ -41,7 +49,7 @@ fn count_opaque<P: Fn(u8, u8, u8) -> bool>(data: &[u8], pred: P) -> u64 {
 /// Width in pixels of the bounding box of opaque (alpha >= 128) pixels.
 fn opaque_bbox_width(data: &[u8], width: usize) -> usize {
     let (mut min_x, mut max_x) = (usize::MAX, 0usize);
-    for (i, px) in data.chunks_exact(4).enumerate() {
+    for (i, px) in pixels(data).enumerate() {
         if px[3] >= 128 {
             let x = i % width;
             min_x = min_x.min(x);
@@ -57,13 +65,13 @@ fn opaque_bbox_width(data: &[u8], width: usize) -> usize {
 
 /// Count pixels with any coverage (alpha > 0).
 fn count_covered(data: &[u8]) -> u64 {
-    data.chunks_exact(4).filter(|px| px[3] > 0).count() as u64
+    pixels(data).filter(|px| px[3] > 0).count() as u64
 }
 
 /// Left edge (min x) of the bounding box of opaque (alpha >= 128) pixels.
 fn bbox_min_x(data: &[u8], width: usize) -> usize {
     let mut min_x = usize::MAX;
-    for (i, px) in data.chunks_exact(4).enumerate() {
+    for (i, px) in pixels(data).enumerate() {
         if px[3] >= 128 {
             min_x = min_x.min(i % width);
         }
@@ -78,7 +86,7 @@ fn bbox_min_x(data: &[u8], width: usize) -> usize {
 /// Height in pixels of the bounding box of opaque (alpha >= 128) pixels.
 fn opaque_bbox_height(data: &[u8], width: usize) -> usize {
     let (mut min_y, mut max_y) = (usize::MAX, 0usize);
-    for (i, px) in data.chunks_exact(4).enumerate() {
+    for (i, px) in pixels(data).enumerate() {
         if px[3] >= 128 {
             let y = i / width;
             min_y = min_y.min(y);
@@ -390,7 +398,7 @@ fn blur_softens_outline_and_fill_together() {
             .data()
             .to_vec()
     };
-    let solid = |d: &[u8]| d.chunks_exact(4).filter(|p| p[3] >= 250).count() as u64;
+    let solid = |d: &[u8]| pixels(d).filter(|p| p[3] >= 250).count() as u64;
 
     let sharp = render_outlined("OUTLINE");
     let blurred = render_outlined("{\\blur20}OUTLINE");
@@ -423,7 +431,7 @@ fn blur_softens_shadow_and_fill_together() {
             .data()
             .to_vec()
     };
-    let solid = |d: &[u8]| d.chunks_exact(4).filter(|p| p[3] >= 250).count() as u64;
+    let solid = |d: &[u8]| pixels(d).filter(|p| p[3] >= 250).count() as u64;
 
     let sharp = render_shadowed("SHADOW");
     let blurred = render_shadowed("{\\blur20}SHADOW");
@@ -509,7 +517,7 @@ fn frz_rotates_counterclockwise() {
     // (smaller y) than those in the left third. Guards against a clockwise sign flip.
     let (width, _h, data) = render("{\\frz30}ROTATEDLINE");
     let (mut min_x, mut max_x) = (usize::MAX, 0usize);
-    for (i, px) in data.chunks_exact(4).enumerate() {
+    for (i, px) in pixels(&data).enumerate() {
         if px[3] >= 128 {
             let x = i % width;
             min_x = min_x.min(x);
@@ -520,7 +528,7 @@ fn frz_rotates_counterclockwise() {
     let third = (max_x - min_x) / 3;
     let mean_y = |x0: usize, x1: usize| {
         let (mut sum, mut n) = (0u64, 0u64);
-        for (i, px) in data.chunks_exact(4).enumerate() {
+        for (i, px) in pixels(&data).enumerate() {
             let x = i % width;
             if px[3] >= 128 && x >= x0 && x < x1 {
                 sum += (i / width) as u64;
@@ -719,7 +727,7 @@ fn static_frame_cache_consistency() {
 fn ink_bbox(data: &[u8], width: usize) -> Option<(usize, usize, usize, usize)> {
     let (mut min_x, mut min_y) = (usize::MAX, usize::MAX);
     let (mut max_x, mut max_y) = (0usize, 0usize);
-    for (i, px) in data.chunks_exact(4).enumerate() {
+    for (i, px) in pixels(data).enumerate() {
         if px[3] > 0 {
             let (x, y) = (i % width, i / width);
             min_x = min_x.min(x);
@@ -785,7 +793,7 @@ fn render_ms(time_ms: u64, dialogue_text: &str) -> (usize, Vec<u8>) {
 /// Horizontal centre of opaque ink (alpha >= 128).
 fn ink_center_x(data: &[u8], width: usize) -> f64 {
     let (mut n, mut sx) = (0u64, 0u64);
-    for (i, px) in data.chunks_exact(4).enumerate() {
+    for (i, px) in pixels(data).enumerate() {
         if px[3] >= 128 {
             n += 1;
             sx += (i % width) as u64;

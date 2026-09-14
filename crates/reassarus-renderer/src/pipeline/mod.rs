@@ -112,8 +112,9 @@ pub enum IntermediateLayer {
     Raster(RasterData),
     /// Vector graphics layer
     Vector(VectorData),
-    /// Text layer
-    Text(TextData),
+    /// Text layer (boxed: `TextData` is ~296B vs ~80B for the other
+    /// variants, so storing it inline bloats every layer value)
+    Text(Box<TextData>),
 }
 
 impl IntermediateLayer {
