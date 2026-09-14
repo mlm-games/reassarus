@@ -50,9 +50,7 @@ impl EditorDocument {
     /// ```
     pub fn edit_event_with_builder<F>(&mut self, index: usize, builder_fn: F) -> Result<String>
     where
-        F: for<'a> FnOnce(
-            crate::core::builders::EventBuilder,
-        ) -> crate::core::builders::EventBuilder,
+        F: FnOnce(crate::core::builders::EventBuilder) -> crate::core::builders::EventBuilder,
     {
         use crate::core::builders::EventBuilder;
 

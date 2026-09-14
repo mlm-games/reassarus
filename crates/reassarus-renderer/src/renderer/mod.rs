@@ -76,6 +76,7 @@ impl Renderer {
     /// - shaping pipeline: via [`fontdb::Database::load_font_data`]
     /// - Repose backend: via `repose_text::register_font_data` (parley
     ///   fontique collection backing the GPU text pass)
+    ///
     /// An empty slice keeps previous behaviour (system fonts only).
     /// Requires the `shaping` feature (for [`crate::pipeline::SoftwarePipeline`]).
     #[cfg(feature = "shaping")]

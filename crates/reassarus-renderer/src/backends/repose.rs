@@ -689,7 +689,7 @@ fn emit_text(out: &mut BuiltScene, layers_ctx: &mut LayerCtx, data: &TextData) {
         }
     }
 
-    let has_perspective = rotation.map_or(false, |(x, y, _, _)| x != 0.0 || y != 0.0);
+    let has_perspective = rotation.is_some_and(|(x, y, _, _)| x != 0.0 || y != 0.0);
     let has_transform = rotation.is_some() || scale.is_some() || shear.is_some();
     // The pushed transform (if any), kept to expand blur-layer rects below:
     // rotated/projected content must not clip at the flat text rect.

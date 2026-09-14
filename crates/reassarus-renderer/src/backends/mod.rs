@@ -154,7 +154,7 @@ pub fn create_backend(
             // where we fall through to the software reference.
             #[cfg(all(feature = "repose-backend", not(feature = "nostd")))]
             {
-                return create_backend(BackendType::Repose, width, height);
+                create_backend(BackendType::Repose, width, height)
             }
 
             #[cfg(any(not(feature = "repose-backend"), feature = "nostd"))]
