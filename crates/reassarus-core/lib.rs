@@ -49,6 +49,10 @@
 #![deny(clippy::all)]
 #![deny(unsafe_code)]
 #![allow(clippy::negative_feature_names)]
+// `syn` 2 and 3 coexist via third-party transitive deps outside our control
+// (e.g. `bytemuck_derive` requires `syn` 3 while the rest of the graph uses
+// `syn` 2); the versions cannot be unified from this crate.
+#![allow(clippy::multiple_crate_versions)]
 
 // Always make alloc available, whether in std or no_std mode
 extern crate alloc;

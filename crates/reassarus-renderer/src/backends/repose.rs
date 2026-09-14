@@ -1,8 +1,8 @@
-//! GPU backend emitting a Repose [`Scene`](repose_core::Scene).
+//! GPU backend emitting a Repose [`Scene`].
 //!
 //! The `tiny-skia` software backend stays the parity reference: it owns
 //! layout, shaping and effect evaluation. This backend only converts the
-//! resulting [`IntermediateLayer`](crate::pipeline::IntermediateLayer)s into
+//! resulting [`IntermediateLayer`]s into
 //! Repose scene nodes, so ASS playback composes with the rest of a Repose UI
 //! without any ASS-specific code inside the framework.
 //!
