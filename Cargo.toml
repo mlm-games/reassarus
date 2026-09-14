@@ -47,7 +47,7 @@ fontdb = "0.24"
 ttf-parser = "0.25"
 rayon = "1"
 repose-core = "0.30"
-repose-render-wgpu = "0.30"
+repose-render-wgpu = { version = "0.30", default-features = false }
 lyon_path = "1.0"
 lyon_tessellation = "1.0"
 smallvec = "1"
