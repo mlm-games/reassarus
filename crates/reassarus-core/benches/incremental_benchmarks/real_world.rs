@@ -4,8 +4,8 @@
 //! section-boundary shifts, malformed recovery, and very large changes.
 
 use criterion::{BenchmarkId, Criterion};
-use std::hint::black_box;
 use reassarus_core::{parser::Script, utils::ScriptGenerator};
+use std::hint::black_box;
 use std::{hint::black_box as std_black_box, time::Instant};
 
 use crate::helpers::{

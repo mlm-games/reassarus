@@ -6,8 +6,8 @@
 #[cfg(not(feature = "std"))]
 use alloc::format;
 use criterion::{BenchmarkId, Criterion, Throughput};
-use std::hint::black_box;
 use reassarus_core::{parser::Script, utils::ScriptGenerator};
+use std::hint::black_box;
 use std::{hint::black_box as std_black_box, time::Instant};
 
 use crate::helpers::{

@@ -84,7 +84,8 @@ impl Renderer {
         context: RenderContext,
         custom_fonts: &[Vec<u8>],
     ) -> Result<Self, RenderError> {
-        let backend = crate::backends::create_backend(backend_type, context.width(), context.height())?;
+        let backend =
+            crate::backends::create_backend(backend_type, context.width(), context.height())?;
         let mut font_database = fontdb::Database::new();
         for bytes in custom_fonts {
             if bytes.is_empty() {
@@ -94,8 +95,9 @@ impl Renderer {
             #[cfg(feature = "repose-backend")]
             repose_text::register_font_data(bytes);
         }
-        let pipeline: Box<dyn Pipeline> =
-            Box::new(crate::pipeline::SoftwarePipeline::with_font_database(font_database));
+        let pipeline: Box<dyn Pipeline> = Box::new(
+            crate::pipeline::SoftwarePipeline::with_font_database(font_database),
+        );
         Ok(Self {
             context,
             backend,
@@ -120,9 +122,11 @@ impl Renderer {
         context: RenderContext,
         font_database: fontdb::Database,
     ) -> Result<Self, RenderError> {
-        let backend = crate::backends::create_backend(backend_type, context.width(), context.height())?;
-        let pipeline: Box<dyn Pipeline> =
-            Box::new(crate::pipeline::SoftwarePipeline::with_font_database(font_database));
+        let backend =
+            crate::backends::create_backend(backend_type, context.width(), context.height())?;
+        let pipeline: Box<dyn Pipeline> = Box::new(
+            crate::pipeline::SoftwarePipeline::with_font_database(font_database),
+        );
         Ok(Self {
             context,
             backend,

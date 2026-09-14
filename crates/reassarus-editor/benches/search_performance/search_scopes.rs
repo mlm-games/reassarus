@@ -1,12 +1,12 @@
 //! Benchmark search with different scopes (document, lines, sections).
 
 use crate::common::generate_search_script;
-use criterion::{Criterion};
-use std::hint::black_box;
+use criterion::Criterion;
 use reassarus_editor::{
     core::EditorDocument,
     utils::search::{DocumentSearch, DocumentSearchImpl, SearchOptions, SearchScope},
 };
+use std::hint::black_box;
 
 /// Benchmark search with different scopes
 pub fn bench_search_scopes(c: &mut Criterion) {

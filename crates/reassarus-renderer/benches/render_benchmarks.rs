@@ -1,9 +1,9 @@
 //! Benchmarks for ASS renderer performance
 
 use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion};
-use std::hint::black_box;
 use reassarus_core::parser::Script;
 use reassarus_renderer::{RenderContext, Renderer};
+use std::hint::black_box;
 
 /// Simple test script for benchmarking
 const SIMPLE_SCRIPT: &str = r#"[Script Info]

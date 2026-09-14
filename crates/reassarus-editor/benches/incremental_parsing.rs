@@ -5,8 +5,8 @@
 //! - <5ms for reparse after multiple edits
 
 use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion};
-use std::hint::black_box;
 use reassarus_editor::core::{EditorDocument, Position, Range};
+use std::hint::black_box;
 
 #[path = "incremental_parsing/script_gen.rs"]
 mod script_gen;

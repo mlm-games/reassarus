@@ -1,12 +1,12 @@
 //! Benchmark regex-based search patterns.
 
 use crate::common::generate_search_script;
-use criterion::{Criterion};
-use std::hint::black_box;
+use criterion::Criterion;
 use reassarus_editor::{
     core::EditorDocument,
     utils::search::{DocumentSearch, DocumentSearchImpl, SearchOptions, SearchScope},
 };
+use std::hint::black_box;
 
 /// Benchmark regex search
 pub fn bench_regex_search(c: &mut Criterion) {

@@ -2,11 +2,11 @@
 
 use crate::common::generate_search_script;
 use criterion::{BenchmarkId, Criterion};
-use std::hint::black_box;
 use reassarus_editor::{
     core::{EditorDocument, Position},
     utils::search::{DocumentSearch, DocumentSearchImpl, SearchOptions, SearchScope},
 };
+use std::hint::black_box;
 
 /// Benchmark index building and updates
 pub fn bench_index_operations(c: &mut Criterion) {

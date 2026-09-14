@@ -2,8 +2,8 @@
 
 use crate::common::generate_large_script;
 use criterion::{BenchmarkId, Criterion, Throughput};
-use std::hint::black_box;
 use reassarus_editor::core::EditorDocument;
+use std::hint::black_box;
 
 /// Benchmark large document creation and parsing
 pub fn bench_large_document_ops(c: &mut Criterion) {

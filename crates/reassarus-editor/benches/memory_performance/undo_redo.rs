@@ -2,8 +2,8 @@
 
 use crate::common::generate_large_script;
 use criterion::{BenchmarkId, Criterion};
-use std::hint::black_box;
 use reassarus_editor::core::{EditorDocument, Position, UndoStackConfig};
+use std::hint::black_box;
 
 /// Benchmark undo/redo stack operations
 pub fn bench_undo_redo_stack(c: &mut Criterion) {

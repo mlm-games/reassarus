@@ -166,9 +166,12 @@ impl Frame {
     /// Check if frame is empty (all transparent)
     pub fn is_empty(&self) -> bool {
         match self.format {
-            PixelFormat::Rgba8 | PixelFormat::Bgra8 => {
-                self.buffer.as_chunks::<4>().0.iter().all(|pixel| pixel[3] == 0)
-            }
+            PixelFormat::Rgba8 | PixelFormat::Bgra8 => self
+                .buffer
+                .as_chunks::<4>()
+                .0
+                .iter()
+                .all(|pixel| pixel[3] == 0),
             PixelFormat::Rgb8 => false,
         }
     }

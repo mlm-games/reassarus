@@ -2,11 +2,11 @@
 
 use crate::common::generate_search_script;
 use criterion::{BenchmarkId, Criterion};
-use std::hint::black_box;
 use reassarus_editor::{
     core::EditorDocument,
     utils::search::{DocumentSearch, DocumentSearchImpl, SearchOptions, SearchScope},
 };
+use std::hint::black_box;
 
 /// Benchmark simple text search
 pub fn bench_simple_search(c: &mut Criterion) {

@@ -755,18 +755,18 @@ impl SoftwarePipeline {
 
                 // Horizontal alignment: 1,4,7 = left, 2,5,8 = center, 3,6,9 = right
                 let x_offset = match alignment % 3 {
-                    1 => -left, // Left align: move left edge to pos
+                    1 => -left,                 // Left align: move left edge to pos
                     2 => -(left + right) / 2.0, // Center align: move center to pos
-                    0 => -right, // Right align: move right edge to pos
+                    0 => -right,                // Right align: move right edge to pos
                     _ => -(left + right) / 2.0, // Default center
                 };
 
                 // Vertical alignment: 1,2,3 = bottom, 4,5,6 = middle, 7,8,9 = top
                 let y_offset = match alignment {
-                    1..=3 => -bottom, // Bottom align: move bottom edge to pos
+                    1..=3 => -bottom,               // Bottom align: move bottom edge to pos
                     4..=6 => -(top + bottom) / 2.0, // Middle align: move center to pos
-                    7..=9 => -top, // Top align: move top edge to pos
-                    _ => -(top + bottom) / 2.0, // Default middle
+                    7..=9 => -top,                  // Top align: move top edge to pos
+                    _ => -(top + bottom) / 2.0,     // Default middle
                 };
 
                 (x_offset, y_offset)

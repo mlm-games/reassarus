@@ -1,9 +1,9 @@
 //! Benchmarks for arena allocator efficiency and repeated-edit memory reuse.
 
 use crate::common::generate_large_script;
-use criterion::{Criterion};
-use std::hint::black_box;
+use criterion::Criterion;
 use reassarus_editor::core::{EditorDocument, Position, Range};
+use std::hint::black_box;
 
 /// Benchmark arena allocator efficiency
 #[cfg(feature = "arena")]

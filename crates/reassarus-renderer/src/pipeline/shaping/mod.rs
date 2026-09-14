@@ -717,11 +717,9 @@ impl GlyphRenderer {
 
                 // Translate to position with spacing adjustment
                 // y_position is already the baseline position
-                if let Some(translated) = crate::pipeline::drawing::translate_path(
-                    &path,
-                    adjusted_x,
-                    glyph.y_position,
-                ) {
+                if let Some(translated) =
+                    crate::pipeline::drawing::translate_path(&path, adjusted_x, glyph.y_position)
+                {
                     paths.push(translated);
                 }
             }

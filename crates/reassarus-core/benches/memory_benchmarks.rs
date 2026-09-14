@@ -7,8 +7,8 @@ extern crate alloc;
 #[cfg(not(feature = "std"))]
 use alloc::string::ToString;
 use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion};
-use std::hint::black_box;
 use reassarus_core::{parser::Script, utils::ScriptGenerator};
+use std::hint::black_box;
 /// Estimate memory usage of parsed AST
 fn estimate_ast_memory(script: &Script) -> usize {
     // Base Script struct size

@@ -1,10 +1,10 @@
 //! Benchmarks for event command operations.
 
-use criterion::{Criterion};
-use std::hint::black_box;
+use criterion::Criterion;
 use reassarus_editor::commands::{MergeEventsCommand, SplitEventCommand, TimingAdjustCommand};
 use reassarus_editor::core::EditorDocument;
 use reassarus_editor::EditorCommand;
+use std::hint::black_box;
 
 use crate::common::generate_complex_script;
 

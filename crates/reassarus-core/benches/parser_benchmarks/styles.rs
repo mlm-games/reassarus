@@ -1,9 +1,9 @@
 //! Style resolution and overlap detection benchmark functions for
 //! `parser_benchmarks`.
 
-use criterion::{Criterion};
-use std::hint::black_box;
+use criterion::Criterion;
 use reassarus_core::utils::generate_overlapping_script;
+use std::hint::black_box;
 
 /// Benchmark style resolution and analysis performance
 pub fn bench_style_resolution(c: &mut Criterion) {

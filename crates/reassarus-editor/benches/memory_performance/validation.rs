@@ -2,8 +2,8 @@
 
 use crate::common::generate_large_script;
 use criterion::{BenchmarkId, Criterion};
-use std::hint::black_box;
 use reassarus_editor::core::EditorDocument;
+use std::hint::black_box;
 
 /// Benchmark validation on large documents
 pub fn bench_large_validation(c: &mut Criterion) {
