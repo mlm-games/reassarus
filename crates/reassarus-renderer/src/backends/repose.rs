@@ -49,9 +49,9 @@ use core::f32::consts::PI;
 use std::sync::Arc;
 
 use repose_core::{
-    BlendMode, Brush, ClipOp, Color, DrawStyle, FontStyle, FontWeight, ImageFit, PaintDesc, Px,
-    Rect, Scene, SceneNode, StrokeCap, StrokeJoin, TextAlign, TextDecoration, TextExtraStyle,
-    Transform, VectorMeshData, VectorVertex,
+    BlendMode, Brush, ClipOp, Color, DrawStyle, FontStyle, FontWeight, ImageFit, ImagePaintStyle,
+    PaintDesc, Px, Rect, Scene, SceneNode, StrokeCap, StrokeJoin, TextAlign, TextDecoration,
+    TextPaintStyle, Transform, VectorMeshData, VectorVertex,
 };
 
 use super::{BackendFeature, BackendType, RenderBackend};
@@ -256,7 +256,10 @@ fn upload_raster(
         },
         handle,
         tint: Color::from_rgba(255, 255, 255, 255),
-        fit: ImageFit::FillBounds,
+        style: ImagePaintStyle {
+            fit: ImageFit::FillBounds,
+            ..ImagePaintStyle::default()
+        },
     })
 }
 
@@ -397,19 +400,17 @@ fn text_node(pass: &TextPass<'_>, draw_style: DrawStyle) -> SceneNode {
         text: Arc::from(pass.text),
         color: Color::from_rgba(pass.color[0], pass.color[1], pass.color[2], pass.color[3]),
         size: Px(pass.font_size.max(1.0)),
-        font_family: intern_font_family(pass.font_family),
-        text_align: TextAlign::Unspecified,
-        font_weight: pass.weight,
-        font_style: pass.style,
-        text_decoration: pass.decoration,
-        letter_spacing: Px(pass.spacing),
-        line_height: Px((pass.font_size * 1.2).max(1.0)),
-        extra_style: TextExtraStyle {
+        style: TextPaintStyle {
+            font_family: intern_font_family(pass.font_family),
+            text_align: TextAlign::Unspecified,
+            font_weight: pass.weight,
+            font_style: pass.style,
+            text_decoration: pass.decoration,
+            letter_spacing: Px(pass.spacing),
+            line_height: Px((pass.font_size * 1.2).max(1.0)),
             draw_style,
-            ..TextExtraStyle::default()
+            ..TextPaintStyle::default()
         },
-        url: None,
-        font_variation_settings: None,
     }
 }
 

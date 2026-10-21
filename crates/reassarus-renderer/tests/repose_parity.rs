@@ -82,11 +82,8 @@ fn outline_emits_stroke_under_fill() {
     let texts = text_nodes(&built.scene.nodes);
     assert_eq!(texts.len(), 2, "outline: stroke + fill Text nodes");
     let is_stroke = texts.iter().any(|t| match t {
-        SceneNode::Text { extra_style, .. } => {
-            matches!(
-                extra_style.draw_style,
-                repose_core::DrawStyle::Stroke { .. }
-            )
+        SceneNode::Text { style, .. } => {
+            matches!(style.draw_style, repose_core::DrawStyle::Stroke { .. })
         }
         _ => false,
     });
@@ -274,7 +271,7 @@ fn text_carries_resolved_font_family() {
     let layers = layers_at(200, "Hello");
     let built = layers_to_scene(&layers, 1280, 720);
     let family = built.scene.nodes.iter().find_map(|node| match node {
-        SceneNode::Text { font_family, .. } => Some(*font_family),
+        SceneNode::Text { style, .. } => Some(style.font_family),
         _ => None,
     });
     assert_eq!(
@@ -306,9 +303,9 @@ fn edge_blur_wraps_outline_only() {
     let sharp_fill = nodes.iter().enumerate().any(|(i, n)| {
         matches!(
             n,
-            SceneNode::Text { extra_style, .. }
+            SceneNode::Text { style, .. }
             if matches!(
-                extra_style.draw_style,
+                style.draw_style,
                 repose_core::DrawStyle::Fill
             )
         ) && (i < begin || i > end)
